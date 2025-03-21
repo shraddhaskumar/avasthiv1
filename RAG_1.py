@@ -9,7 +9,7 @@ from nltk.tokenize import sent_tokenize
 nltk.download("punkt")
 
 # Ensure correct ChromaDB version
-print(f"ChromaDB Version: {chromadb._version_}")  # Should be >= 0.4.14
+print(f"ChromaDB Version: {chromadb.__version__}")  # Should be >= 0.4.14
 
 # Define embedding function using SentenceTransformers
 EMBED_MODEL = "all-MiniLM-L6-v2"  # Use a model optimized for semantic search
