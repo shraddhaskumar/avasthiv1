@@ -150,15 +150,23 @@ class QueryPayload(BaseModel):
     thread_id: str | None = None # Add this line
 
 
-# Load a sentiment analysis model
-sentiment_pipeline = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+# Load the sentiment analysis model from NLP Town
+sentiment_pipeline = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
 
 
 # Function to analyze sentiment
 def analyze_sentiment_transformers(text):
     result = sentiment_pipeline(text)[0]
-    return result['label'].lower()
+    label = result['label']  # e.g., '4 stars'
+    rating = int(label.split()[0])  # extract the number from 'X stars'
 
+    # You can customize the label to your format (e.g., positive, neutral, negative)
+    if rating >= 4:
+        return "positive"
+    elif rating == 3:
+        return "neutral"
+    else:
+        return "negative"
 
 # Function to retrieve similar documents from ChromaDB
 def search_similar_text(query_text, top_k=10, max_distance=1.0):
